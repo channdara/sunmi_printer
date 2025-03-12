@@ -1,40 +1,58 @@
 group 'br.com.brasizza.sunmi_printer_plus'
-version '1.0'
+version '1.0-SNAPSHOT'
 
 buildscript {
+    ext.kotlin_version = '1.8.22'
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.1'
+        classpath 'com.android.tools.build:gradle:8.1.4'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
 rootProject.allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 
-     gradle.projectsEvaluated {
+    gradle.projectsEvaluated {
         tasks.withType(JavaCompile) {
             options.compilerArgs << "-Xlint:deprecation"
-            // options.compilerArgs << "-Xlint:unchecked"
+            options.compilerArgs << "-Xlint:unchecked"
         }
-    }  
+    }
 }
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 31
+    namespace 'br.com.brasizza.sunmi_printer_plus'
+    compileSdk 34
 
     defaultConfig {
         minSdkVersion 16
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
     lintOptions {
         disable 'InvalidPackage'
+    }
+
+    buildFeatures {
+        aidl true
     }
 }
